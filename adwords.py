@@ -56,7 +56,18 @@ def main():
     #Revenue gereration
     revenue = 0
     average = 0
+    withoutShuffleRevenue = 0
+    #Without any shuffle
+    bidderBudget=initialBudget.copy()
+    for element in query:
+        validBidders=[]
+        for bidder in bidderData:
+            if element==bidder[1]:
+                validBidders.append(bidder)
+        temp = assignBestBidder(typeAlg,bidderBudget,validBidders,initialBudget)
+        withoutShuffleRevenue = withoutShuffleRevenue + temp    
     #Algorithm
+    temp=0
     for j in range(0,100):
         random.shuffle(query)
         revenue = 0
@@ -69,9 +80,8 @@ def main():
             temp = assignBestBidder(typeAlg,bidderBudget,validBidders,initialBudget)
             revenue = revenue + temp
         average = revenue/100 + average
-        #print "iteration"+str(j)+" "+str(revenue)
-    print average
-    print (average/totalBudgetSum)
+    print "Revenue %.2f"%withoutShuffleRevenue
+    print "Competitive ratio %.2f"%(average/totalBudgetSum)
         
             
 if __name__ == '__main__':
